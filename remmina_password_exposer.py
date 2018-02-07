@@ -23,7 +23,7 @@ fs.close()
 for i in fso:
     if re.findall(r'secret=', i):
         r_secret = i[len(r'secret='):][:-1]
-        print 'found secret', r_secret
+        print('found secret', r_secret)
     
 for f in os.listdir(REMMINA_FOLDER):
     if re.findall(REGEXP_ACCOUNTS, f): 
@@ -42,10 +42,12 @@ for f in os.listdir(REMMINA_FOLDER):
         #~ print fo
         #~ print 'found', f
         
-        password = base64.decodestring(r_password)
-        secret = base64.decodestring(r_secret)
+        password = base64.b64decode(r_password.encode('ascii'))
+        secret = base64.b64decode(r_secret.encode('ascii'))
+        print(r_password)
+        print(r_secret)
+        #password = base64.decodestring(r_password)
+        #secret = base64.decodestring(r_secret)
         
         diz[r_name] = DES3.new(secret[:24], DES3.MODE_CBC, secret[24:]).decrypt(password)
-        print r_name, r_username, diz[r_name]
-        
-
+        print(r_name, r_username, diz[r_name])
